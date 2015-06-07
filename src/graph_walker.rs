@@ -49,3 +49,28 @@ pub fn random_walk(start : i32, end : i32, map : &HashMap<i32, Vec<Conn>>) -> Ve
 
 	return result;
 }
+
+/**
+ * Generate a random walk
+ */
+pub fn random_walk_norepeat(start : i32, end : i32, map : &HashMap<i32, Vec<Conn>>) -> Vec<i32> {
+	let mut result = Vec::new();
+	let mut current = start;
+   	let mut rng = rand::thread_rng();
+
+   	result.push(start);
+
+	while current != end {
+		let ref paths = map[&current];
+		let between = Range::new(0, paths.len());
+		let rnum = between.ind_sample(&mut rng);
+		current = paths[rnum].dest;
+
+		//If we picked ourself go again
+		if result.iter().find(|&x| *x == current).is_none() {
+			result.push(current);
+		}
+	}
+
+	return result;
+}
