@@ -2,7 +2,7 @@ use std::collections::HashMap;
 use std::vec::Vec;
 use conn::Conn;
 
-pub fn find_path(start : i32, end : i32, map : &HashMap<i32, Vec<Conn>>) -> Vec<i32> {
+pub fn dijkstras(start : i32, end : i32, map : &HashMap<i32, Vec<Conn>>) -> Vec<i32> {
 	let mut current = start;
 	let mut result = Vec::new();
 
