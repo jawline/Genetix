@@ -8,7 +8,7 @@ pub struct Conn {
 
 impl cmp::PartialOrd for Conn {
 	fn partial_cmp(&self, other: &Conn) -> Option<Ordering> {
-		return Some(self.dest.cmp(&other.dest));
+		return Some(self.cost.cmp(&other.cost));
 	}
 }
 impl cmp::PartialEq for Conn {
@@ -22,6 +22,6 @@ impl cmp::Eq for Conn {
 
 impl cmp::Ord for Conn {
 	fn cmp(&self, other: &Self) -> Ordering {
-		return self.dest.cmp(&other.dest);
+		return self.cost.cmp(&other.cost);
 	}
 }
