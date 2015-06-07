@@ -51,7 +51,7 @@ pub fn random_walk(start : i32, end : i32, map : &HashMap<i32, Vec<Conn>>) -> Ve
 }
 
 /**
- * Generate a random walk
+ * Generate a random walk without repeats
  */
 pub fn random_walk_norepeat(start : i32, end : i32, map : &HashMap<i32, Vec<Conn>>) -> Vec<i32> {
 	let mut result = Vec::new();
