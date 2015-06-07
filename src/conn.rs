@@ -17,8 +17,7 @@ impl cmp::PartialEq for Conn {
 	}
 }
 
-impl cmp::Eq for Conn {
-}
+impl cmp::Eq for Conn {}
 
 impl cmp::Ord for Conn {
 	fn cmp(&self, other: &Self) -> Ordering {
