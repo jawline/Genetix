@@ -1,14 +1,10 @@
 extern crate rand;
 
-mod graph_maker;
 mod conn;
+mod graph_maker;
+mod graph_printer;
 
 fn main() {
 	let map = graph_maker::make_graph();
-	for map_entry in map {
-		let (_, links) = map_entry;
-		for link in links {
-			println!("{} {}", link.dest, link.cost);
-		}
-	}
+	graph_printer::output_connections(map);
 }

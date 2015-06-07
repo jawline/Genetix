@@ -3,7 +3,6 @@ extern crate rand;
 use std::collections::HashMap;
 use std::vec::Vec;
 use rand::Rng;
-
 use conn;
 
 pub fn make_graph() -> HashMap<i32, Vec<conn::Conn>> {
