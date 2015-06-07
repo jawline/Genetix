@@ -18,7 +18,7 @@ pub fn find_path(start : i32, end : i32, map : &HashMap<i32, Vec<conn::Conn>>) -
 			let mut exists = false;
 
 			for travelled in &result {
-				if (*travelled == path.dest) {
+				if *travelled == path.dest {
 					exists = true;
 				}
 			}
@@ -30,7 +30,6 @@ pub fn find_path(start : i32, end : i32, map : &HashMap<i32, Vec<conn::Conn>>) -
 
 		current = shortest.dest;
 		result.push(current);
-		println!("{}", shortest.dest);
 	}
 
 	return result;
