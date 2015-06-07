@@ -1,31 +1,14 @@
 extern crate rand;
 
-use std::collections::HashMap;
-use rand::Rng;
-
-mod other;
-
-struct Conn {
-	dest: i32,
-	cost: i32
-}
+mod graph_maker;
+mod conn;
 
 fn main() {
-	println!("Hello World!\n");
-	other::poo();
-
-	let mut rng = rand::thread_rng();
-
-	let mut map = HashMap::new();
-
-	for x in 0..100 {
-		for y in 0..100 {
-			map.insert(x, Conn{dest: y, cost: rng.gen::<i32>() % 150});
+	let map = graph_maker::make_graph();
+	for map_entry in map {
+		let (_, links) = map_entry;
+		for link in links {
+			println!("{} {}", link.dest, link.cost);
 		}
-	}
-
-	for link in map {
-		let (_, x) = link;
-		println!("{} {}", x.dest, x.cost);
 	}
 }
