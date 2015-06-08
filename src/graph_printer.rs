@@ -20,14 +20,22 @@ fn cost(from : &i32, to : &i32, map : &HashMap<i32, Vec<conn::Conn>>) -> i32 {
 	return -1;
 }
 
-pub fn output_path(start : i32, path : &Vec<i32>, map : &HashMap<i32, Vec<conn::Conn>>) {
+pub fn total_cost(start : i32, path : &Vec<i32>, map : &HashMap<i32, Vec<conn::Conn>>) -> u32 {
 	let mut current = start;
 	let mut total_cost = 0;
 	for next in path {
-		let cost = cost(&current, next, map);
-		println!("From {} to {} (Cost {})", current, *next, cost);
-		total_cost += cost;
+		total_cost += cost(&current, next, map);
 		current = *next;
 	}
-	println!("Done (Total Cost: {})", total_cost);
+	return total_cost;
+}
+
+pub fn output_path(start : i32, path : &Vec<i32>, map : &HashMap<i32, Vec<conn::Conn>>) {
+	let mut current = start;
+	for next in path {
+		let cost = cost(&current, next, map);
+		println!("From {} to {} (Cost {})", current, *next, cost);
+		current = *next;
+	}
+	println!("Done (Total Cost: {})", total_cost(start, path, map));
 }
