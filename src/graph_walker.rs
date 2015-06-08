@@ -32,6 +32,16 @@ pub fn niave_cut_cycle(path : &Vec<i32>) -> Vec<i32> {
 	let mut count = HashMap::new();
 	
 	fn recount() {
+		for item in walk {
+			count[item] += 1;
+		}
+	}
+	
+	fn empty() -> bool {
+		count.iter().find(|&x| *x > 1).is_none();
+	}
+	
+	while !empty() {
 	}
 }
 
