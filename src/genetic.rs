@@ -11,6 +11,6 @@ use graph_printer;
  */
 pub fn genetic(start : i32, end : i32, map : &HashMap<i32, Vec<Conn>>) -> Vec<i32> {
   const population_size : usize = 500;
-  let initial [Vec<i32>, population_size] = [graph_walker::random_walk(start, end, map); population_size];
-  let costs = initial.iter().map(|&x| graph_printer::total_cost(start, x, map));
+  let mut populations [Vec<i32>, population_size] = [graph_walker::random_walk(start, end, map); population_size];
+  populations.sort_by(|&x, &y| cost(start, x, map) < cost(start, y, map));
 }
