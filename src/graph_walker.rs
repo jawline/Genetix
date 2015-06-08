@@ -82,6 +82,7 @@ pub fn random_walk(start : i32, end : i32, map : &HashMap<i32, Vec<Conn>>) -> Ve
 		}
 	}
 
+	niave_cut_cycle(result);
 	return result;
 }
 
