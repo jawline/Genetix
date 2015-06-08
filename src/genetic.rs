@@ -3,6 +3,7 @@ use std::vec::Vec;
 use conn::Conn;
 use rand::thread_rng;
 use rand::distributions::{IndependentSample, Range};
+use graph_walker;
 
 /**
  * Generate a walk using a genetic heuristic
