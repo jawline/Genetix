@@ -25,12 +25,17 @@ pub fn dijkstras(start : i32, end : i32, map : &HashMap<i32, Vec<Conn>>) -> Vec<
 	return result;
 }
 
+pub fn cut(walk : &mut Vec<i32>, from : usize, to : usize) {
+	for x in from..to {
+		walk.remove(from);
+	}
+}
+
 /**
  * Expensive approach at cutting the uneeded cycles from a walk
  */
 pub fn niave_cut_cycle(path : &Vec<i32>) -> Vec<i32> {
 	let mut old = Vec::new();
-	let mut cur = Vec::new();
 	
 	let mut count = HashMap::new();
 	
@@ -53,18 +58,10 @@ pub fn niave_cut_cycle(path : &Vec<i32>) -> Vec<i32> {
 	recount();
 	
 	while !empty() {
-	
-		for item in old {
-			cur.push(item);
-		}
-	
-		//Swap old and cur
-		let temp = old;
-		old = cur;
-		cur = temp;
-		
-		//Clear current
-		cur.clear();
+		let (item, _) = count.iter().find(|&x| *x > 1).unwrap();
+		let start = old.position(|&x| *x == item);
+		let end = old.rposition(|&x| *x == item);
+		cut(&old, start, end);
 	}
 	
 	return old;
