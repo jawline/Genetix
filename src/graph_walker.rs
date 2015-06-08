@@ -25,6 +25,9 @@ pub fn dijkstras(start : i32, end : i32, map : &HashMap<i32, Vec<Conn>>) -> Vec<
 	return result;
 }
 
+/**
+ * Expensive approach at cutting the uneeded cycles from a walk
+ */
 pub fn niave_cut_cycle(path : &Vec<i32>) -> Vec<i32> {
 	let mut old = Vec::new();
 	let mut cur = Vec::new();
