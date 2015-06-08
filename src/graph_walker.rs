@@ -25,6 +25,16 @@ pub fn dijkstras(start : i32, end : i32, map : &HashMap<i32, Vec<Conn>>) -> Vec<
 	return result;
 }
 
+pub fn reduce_walk(start : i32, walk : &mut Vec<i32>, map : &HashMap<i32, Vec<Conn>>) {
+	
+	let mut count = HashMap::new();
+	
+	count[start] = 1;
+	for item in walk {
+		count[item] += 1;
+	}
+}
+
 /**
  * Generate a random walk
  */
