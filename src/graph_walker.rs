@@ -31,8 +31,14 @@ pub fn niave_cut_cycle(path : &Vec<i32>) -> Vec<i32> {
 	
 	let mut count = HashMap::new();
 	
+	//Copy path into old
+	for item in path {
+		old.push(item);
+	}
+	
+	//Some helper functions to recount the number of elements in old and say if we are done
 	fn recount() {
-		for item in walk {
+		for item in old {
 			count[item] += 1;
 		}
 	}
@@ -41,8 +47,24 @@ pub fn niave_cut_cycle(path : &Vec<i32>) -> Vec<i32> {
 		count.iter().find(|&x| *x > 1).is_none();
 	}
 	
+	recount();
+	
 	while !empty() {
+	
+		for item in old {
+			cur.push(item);
+		}
+	
+		//Swap old and cur
+		let temp = old;
+		old = cur;
+		cur = temp;
+		
+		//Clear current
+		cur.clear();
 	}
+	
+	return old;
 }
 
 /**
