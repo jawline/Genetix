@@ -44,10 +44,6 @@ pub fn niave_cut_cycle(path : &Vec<i32>) -> Vec<i32> {
 		}
 	}
 	
-	fn empty() -> bool {
-		count.iter().find(|&x| *x > 1).is_none();
-	}
-	
 	fn cut(from : usize, to : usize) {
 		for x in from..to {
 			old.remove(from);
@@ -55,12 +51,18 @@ pub fn niave_cut_cycle(path : &Vec<i32>) -> Vec<i32> {
 	}
 	
 	recount();
-	while !empty() {
-		let (item, _) = count.iter().find(|&x| *x > 1).unwrap();
+	
+	let mut it = count.iter().find(|&x| *x > 1);
+	
+	while !it.is_none() {
+		let (item, _) = it.unwrap();
 		let start = old.position(|&x| *x == item);
 		let end = old.rposition(|&x| *x == item);
 		cut(&old, start, end);
+
+		//Recalculate the count map and look for the next iter (We may have inadvertantly removed doubles already)
 		recount();
+		it = count.iter().find(|&x| *x > 1);
 	}
 	
 	return old;
