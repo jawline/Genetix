@@ -20,7 +20,7 @@ fn cost(from : &i32, to : &i32, map : &HashMap<i32, Vec<conn::Conn>>) -> i32 {
 	return -1;
 }
 
-pub fn total_cost(start : i32, path : &Vec<i32>, map : &HashMap<i32, Vec<conn::Conn>>) -> u32 {
+pub fn total_cost(start : i32, path : &Vec<i32>, map : &HashMap<i32, Vec<conn::Conn>>) -> i32 {
 	let mut current = start;
 	let mut total_cost = 0;
 	for next in path {

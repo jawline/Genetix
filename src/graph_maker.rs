@@ -8,7 +8,11 @@ pub fn make_graph() -> HashMap<i32, Vec<conn::Conn>> {
 	for x in 0..100 {
 		let mut links = Vec::new();
 		for y in 0..100 {
-			links.push(conn::Conn{dest: y, cost: x == y ? 0 : y});
+			if y == x {
+				links.push(conn::Conn{dest: y, cost: 0});
+			} else {
+				links.push(conn::Conn{dest: y, cost: y});
+			}
 		}
 		map.insert(x, links);
 	}

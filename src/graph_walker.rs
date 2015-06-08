@@ -29,33 +29,32 @@ pub fn dijkstras(start : i32, end : i32, map : &HashMap<i32, Vec<Conn>>) -> Vec<
  * Expensive approach at cutting the uneeded cycles from a walk
  */
 pub fn niave_cut_cycle(path : &mut Vec<i32>) {
-	let mut count = HashMap::new();
+	let mut count = HashMap::<i32, i32>::new();
 	
-	//Some helper functions to recount the number of elements in old and say if we are done
-	fn recount() {
-		for item in path {
-			count[item] += 1;
-		}
-	}
-	
-	fn cut(from : usize, to : usize) {
+	fn cut (path : &Vec<i32>, from:i32, to:i32) {
 		for x in from..to {
 			path.remove(from);
 		}
-	}
+	};
 	
-	recount();
+	for item in *path {
+		count[item] += 1;
+	}
 	
 	let mut it = count.iter().find(|&x| *x > 1);
 	
 	while !it.is_none() {
 		let (item, _) = it.unwrap();
-		let start = old.position(|&x| *x == item);
-		let end = old.rposition(|&x| *x == item);
-		cut(&old, start, end);
+		let start = path.iter().position(|&x| *x == item);
+		let end = path.iter().rposition(|&x| *x == item);
+		cut(&path, start, end);
 
 		//Recalculate the count map and look for the next iter (We may have inadvertantly removed doubles already)
-		recount();
+		
+		for item in path {
+			count[item] += 1;
+		}
+
 		it = count.iter().find(|&x| *x > 1);
 	}
 }
