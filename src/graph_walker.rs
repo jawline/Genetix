@@ -35,17 +35,10 @@ pub fn dijkstras(start : i32, end : i32, map : &HashMap<i32, Vec<Conn>>) -> Vec<
         let current = instance_map.get(&item).cloned().or(Some(0)).unwrap();
         instance_map.insert(*item, current + 1);
     }
-	
-    loop {
-        let start : usize;
-        let end : usize;
 
-    	if let Some((dest, _)) = instance_map.iter().find(|&(_, instance_map)| *instance_map > 1) {
-            start = path.iter().position(|&x| x == *dest).unwrap();
-            end = path.iter().rposition(|&x| x == *dest).unwrap();
-        } else {
-            break;
-        }
+    while let Some((&dest, _)) = instance_map.iter().find(|&(_, instance_map)| *instance_map > 1) {
+        let start = path.iter().position(|&x| x == dest).unwrap();
+        let end = path.iter().rposition(|&x| x == dest).unwrap();
         
         //Remove 1 count of each removed value
         for item in path.iter().skip(start).take(end - start) {
