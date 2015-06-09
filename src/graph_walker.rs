@@ -32,10 +32,7 @@ pub fn dijkstras(start : i32, end : i32, map : &HashMap<i32, Vec<Conn>>) -> Vec<
     let mut instance_map = HashMap::<i32, i32>::new();
 	
     for item in path.iter() {
-        let mut current = 0;
-        if let Some(value) = instance_map.get(item) {
-            current = *value;
-        }
+        let current = instance_map.get(&item).cloned().or(Some(0)).unwrap();
         instance_map.insert(*item, current + 1);
     }
 	
