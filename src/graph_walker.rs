@@ -28,29 +28,29 @@ pub fn dijkstras(start : i32, end : i32, map : &HashMap<i32, Vec<Conn>>) -> Vec<
 /**
  * Expensive approach at cutting the uneeded cycles from a walk
  */
- pub fn niave_cut_cycle(path : &mut Vec<i32>) {
-    let mut instance_map = HashMap::<i32, i32>::new();
-	
-    for item in path.iter() {
-        let current = instance_map.get(&item).cloned().or(Some(0)).unwrap();
-        instance_map.insert(*item, current + 1);
-    }
+pub fn niave_cut_cycle(path : &mut Vec<i32>) {
+	let mut instance_map = HashMap::<i32, i32>::new();
 
-    while let Some((&dest, _)) = instance_map.iter().find(|&(_, instance_map)| *instance_map > 1) {
-        let start = path.iter().position(|&x| x == dest).unwrap();
-        let end = path.iter().rposition(|&x| x == dest).unwrap();
-        
-        //Remove 1 count of each removed value
-        for item in path.iter().skip(start).take(end - start) {
-            if let Some(value) = instance_map.get_mut(&item) {
-        	*value -= 1;
-            }
-        }
-        
-        let tail : Vec<i32> = path.iter().skip(end).cloned().collect();
-        path.truncate(start);
-        path.extend(tail);
-    }
+	for item in path.iter() {
+		let current = instance_map.entry(*item).or_insert(0);
+		*current += 1;
+	}
+
+	while let Some((&dest, _)) = instance_map.iter().find(|&(_, instance_map)| *instance_map > 1) {
+		let start = path.iter().position(|&x| x == dest).unwrap();
+		let end = path.iter().rposition(|&x| x == dest).unwrap();
+
+		//Remove 1 count of each removed value
+		for item in path.iter().skip(start).take(end - start) {
+			if let Some(value) = instance_map.get_mut(&item) {
+				*value -= 1;
+			}
+		}
+
+		let tail : Vec<i32> = path.iter().skip(end).cloned().collect();
+		path.truncate(start);
+		path.extend(tail);
+	}
 }
 
 /**
@@ -76,12 +76,13 @@ pub fn random_walk(start : i32, end : i32, map : &HashMap<i32, Vec<Conn>>) -> Ve
 	}
 
 	//Cut away any cycles from the walk
-	niave_cut_cycle(result);
+	niave_cut_cycle(&mut result);
 	return result;
 }
 
 /**
  * Generate a random walk without repeats
+ * NOTE: Only works on highly connected graphs - or if your lucky - will hang otherwise
  */
 pub fn random_walk_norepeat(start : i32, end : i32, map : &HashMap<i32, Vec<Conn>>) -> Vec<i32> {
 	let mut result = Vec::new();
@@ -96,7 +97,6 @@ pub fn random_walk_norepeat(start : i32, end : i32, map : &HashMap<i32, Vec<Conn
 		let rnum = between.ind_sample(&mut rng);
 		current = paths[rnum].dest;
 
-		//If we picked ourself go again
 		if result.iter().find(|&x| *x == current).is_none() {
 			result.push(current);
 		}
