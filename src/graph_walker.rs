@@ -37,8 +37,8 @@ pub fn dijkstras(start : i32, end : i32, map : &HashMap<i32, Vec<Conn>>) -> Vec<
     }
 	
     loop {
-        let mut start : usize;
-        let mut end : usize;
+        let start : usize;
+        let end : usize;
 
     	if let Some((dest, _)) = instance_map.iter().find(|&(_, instance_map)| *instance_map > 1) {
             start = path.iter().position(|&x| x == *dest).unwrap();
