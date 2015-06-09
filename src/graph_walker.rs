@@ -48,6 +48,7 @@ pub fn niave_cut_cycle(path : &mut Vec<i32>) {
 		}
 
 		//Recalculate the count map and look for the next iter (We may have inadvertantly removed doubles already)
+		count.clear();
 		for item in path {
 			count[item] += 1;
 		}
