@@ -41,13 +41,11 @@ pub fn niave_cut_cycle(path : &mut Vec<i32>) {
     		}
 	}
 	
-	recalculate(&mut instance_map, path);
-	
 	loop {
+    		recalculate(&mut instance_map, path);
     		if let Some((dest, _)) = instance_map.iter().find(|&(_, instance_map)| *instance_map > 1) {
     			let start_op = path.iter().position(|&x| x == *dest);
     			let end_op = path.iter().rposition(|&x| x == *dest);
-    
     			if let Some(start) = start_op {
 				if let Some(end) = end_op {
 					let tail : Vec<i32> = path.iter().skip(end).cloned().collect();
@@ -58,7 +56,6 @@ pub fn niave_cut_cycle(path : &mut Vec<i32>) {
     		} else {
     			break;
     		}
-    		recalculate(&mut instance_map, path);
 	}
 }
 
