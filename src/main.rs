@@ -11,11 +11,11 @@ fn main() {
 	graph_printer::output_connections(&map);
 
 	let path = graph_walker::dijkstras(0, 30, &map);
-	graph_printer::output_path(0, &path, &map);
+	graph_printer::output_path(&path, &map);
 	
 	let random_path = graph_walker::random_walk(0, 30, &map);
-	graph_printer::output_path(0, &random_path, &map);
+	graph_printer::output_path(&random_path, &map);
 	
 	let random_path_norepeat = graph_walker::random_walk_norepeat(0, 30, &map);
-	graph_printer::output_path(0, &random_path_norepeat, &map);
+	graph_printer::output_path(&random_path_norepeat, &map);
 }

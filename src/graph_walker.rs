@@ -47,9 +47,7 @@ pub fn niave_cut_cycle(path : &mut Vec<i32>) {
 			}
 		}
 
-		let tail : Vec<i32> = path.iter().skip(end).cloned().collect();
-		path.truncate(start);
-		path.extend(tail);
+		*path = path.iter().take(start).cloned().chain(path.iter().skip(end).cloned()).collect();
 	}
 }
 
