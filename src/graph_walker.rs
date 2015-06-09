@@ -40,25 +40,26 @@ pub fn dijkstras(start : i32, end : i32, map : &HashMap<i32, Vec<Conn>>) -> Vec<
     }
 	
     loop {
-        let mut skipped : Vec<i32>;
+        let mut start : usize;
+        let mut end : usize;
 
     	if let Some((dest, _)) = instance_map.iter().find(|&(_, instance_map)| *instance_map > 1) {
-            let start = path.iter().position(|&x| x == *dest).unwrap();
-            let end = path.iter().rposition(|&x| x == *dest).unwrap();
-            skipped = path.iter().skip(start).take(end - start).cloned().collect();
-            let tail : Vec<i32> = path.iter().skip(end).cloned().collect();
-            path.truncate(start);
-            path.extend(tail);
+            start = path.iter().position(|&x| x == *dest).unwrap();
+            end = path.iter().rposition(|&x| x == *dest).unwrap();
         } else {
             break;
         }
-
+        
         //Remove 1 count of each removed value
-        for item in skipped {
+        for item in path.iter().skip(start).take(end - start) {
             if let Some(value) = instance_map.get_mut(&item) {
         	*value -= 1;
             }
         }
+        
+        let tail : Vec<i32> = path.iter().skip(end).cloned().collect();
+        path.truncate(start);
+        path.extend(tail);
     }
 }
 
