@@ -35,10 +35,10 @@ pub fn niave_cut_cycle(path : &mut Vec<i32>) {
 		count[item] += 1;
 	}
 	
-	while let Some((item, _)) = count.iter().find(|&x| *x > 1) {
+	while let Some((dest, _)) = count.iter().find(|&x| *x > 1) {
 
-		let start = path.iter().position(|&x| *x == item);
-		let end = path.iter().rposition(|&x| *x == item);
+		let Some(start) = path.iter().position(|&x| *x == item);
+		let Some(end) = path.iter().rposition(|&x| *x == item);
 		path = path.iter().cloned().take(start).cloned().chain(path.iter().skip(end).cloned()).collect();
 
 		//Recalculate the count map and look for the next iter (We may have inadvertantly removed doubles already)
