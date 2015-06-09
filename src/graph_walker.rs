@@ -29,19 +29,36 @@ pub fn dijkstras(start : i32, end : i32, map : &HashMap<i32, Vec<Conn>>) -> Vec<
  * Expensive approach at cutting the uneeded cycles from a walk
  */
 pub fn niave_cut_cycle(path : &mut Vec<i32>) {
-	let mut count = HashMap::<i32, i32>::new();
+	let mut instance_map = HashMap::<i32, i32>::new();
 	
-	while let Some((dest, _)) = count.iter().find(|&(_, count)| *count > 1) {
-		let start_op = path.iter().position(|&x| x == *dest);
-		let end_op = path.iter().rposition(|&x| x == *dest);
-
-		if let Some(start) = start_op {
-		    if let Some(end) = end_op {
-		        let tail : Vec<i32> = path.iter().skip(end).cloned().collect();
-		        path.truncate(start);
-		        path.extend(tail);
-		    }
-		}
+	fn recalculate(map : &mut HashMap<i32, i32>, path : &Vec<i32>) {
+    		for item in path.iter() {
+    			let mut current = 0;
+    			if let Some(value) = map.get(item) {
+	    			current = *value;
+			}
+			map.insert(*item, current + 1);
+    		}
+	}
+	
+	recalculate(&mut instance_map, path);
+	
+	loop {
+    		if let Some((dest, _)) = instance_map.iter().find(|&(_, instance_map)| *instance_map > 1) {
+    			let start_op = path.iter().position(|&x| x == *dest);
+    			let end_op = path.iter().rposition(|&x| x == *dest);
+    
+    			if let Some(start) = start_op {
+				if let Some(end) = end_op {
+					let tail : Vec<i32> = path.iter().skip(end).cloned().collect();
+					path.truncate(start);
+					path.extend(tail);
+	    			}
+    			}
+    		} else {
+    			break;
+    		}
+    		recalculate(&mut instance_map, path);
 	}
 }
 
