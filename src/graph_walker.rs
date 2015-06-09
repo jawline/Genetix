@@ -40,7 +40,7 @@ pub fn dijkstras(start : i32, end : i32, map : &HashMap<i32, Vec<Conn>>) -> Vec<
     }
 	
     loop {
-        let mut skipped : Vec<i32> = Vec::new();
+        let mut skipped : Vec<i32>;
 
     	if let Some((dest, _)) = instance_map.iter().find(|&(_, instance_map)| *instance_map > 1) {
             let start = path.iter().position(|&x| x == *dest).unwrap();
@@ -56,7 +56,7 @@ pub fn dijkstras(start : i32, end : i32, map : &HashMap<i32, Vec<Conn>>) -> Vec<
         //Remove 1 count of each removed value
         for item in skipped {
             if let Some(value) = instance_map.get_mut(&item) {
-        	instance_map.insert(item, *value - 1);
+        	*value -= 1;
             }
         }
     }
