@@ -31,20 +31,16 @@ pub fn dijkstras(start : i32, end : i32, map : &HashMap<i32, Vec<Conn>>) -> Vec<
 pub fn niave_cut_cycle(path : &mut Vec<i32>) {
 	let mut count = HashMap::<i32, i32>::new();
 	
-	for item in path {
-		count[item] += 1;
-	}
-	
-	while let Some((dest, _)) = count.iter().find(|&x| *x > 1) {
+	while let Some((dest, _)) = count.iter().find(|&(_, count)| *count > 1) {
+		let start_op = path.iter().position(|&x| x == *dest);
+		let end_op = path.iter().rposition(|&x| x == *dest);
 
-		let Some(dest) = path.iter().position(|&x| *x == item);
-		let Some(dest) = path.iter().rposition(|&x| *x == item);
-		path = path.iter().cloned().take(start).cloned().chain(path.iter().skip(end).cloned()).collect();
-
-		//Recalculate the count map and look for the next iter (We may have inadvertantly removed doubles already)
-		count.clear();
-		for item in path {
-			count[item] += 1;
+		if let Some(start) = start_op {
+		    if let Some(end) = end_op {
+		        let tail : Vec<i32> = path.iter().skip(end).cloned().collect();
+		        path.truncate(start);
+		        path.extend(tail);
+		    }
 		}
 	}
 }
