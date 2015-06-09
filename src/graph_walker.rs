@@ -35,9 +35,7 @@ pub fn niave_cut_cycle(path : &mut Vec<i32>) {
 		count[item] += 1;
 	}
 	
-	let mut it = count.iter().find(|&x| *x > 1);
-	
-	while !it.is_none() {
+	while let Some((item, _)) = count.iter().find(|&x| *x > 1) {
 		let (item, _) = it.unwrap();
 		
 		let start = path.iter().position(|&x| *x == item);
@@ -52,8 +50,6 @@ pub fn niave_cut_cycle(path : &mut Vec<i32>) {
 		for item in path {
 			count[item] += 1;
 		}
-
-		it = count.iter().find(|&x| *x > 1);
 	}
 }
 
