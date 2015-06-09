@@ -31,12 +31,6 @@ pub fn dijkstras(start : i32, end : i32, map : &HashMap<i32, Vec<Conn>>) -> Vec<
 pub fn niave_cut_cycle(path : &mut Vec<i32>) {
 	let mut count = HashMap::<i32, i32>::new();
 	
-	fn cut (path : &Vec<i32>, from:i32, to:i32) {
-		for x in from..to {
-			path.remove(from);
-		}
-	};
-	
 	for item in path {
 		count[item] += 1;
 	}
@@ -45,9 +39,13 @@ pub fn niave_cut_cycle(path : &mut Vec<i32>) {
 	
 	while !it.is_none() {
 		let (item, _) = it.unwrap();
+		
 		let start = path.iter().position(|&x| *x == item);
 		let end = path.iter().rposition(|&x| *x == item);
-		cut(path, start, end);
+		
+		for item in start..end {
+			path.remove(from);
+		}
 
 		//Recalculate the count map and look for the next iter (We may have inadvertantly removed doubles already)
 		for item in path {
