@@ -56,7 +56,7 @@ pub fn dijkstras(start : i32, end : i32, map : &HashMap<i32, Vec<Conn>>) -> Vec<
             break;
         }
 
-        //Remove 1 instance of each truncate value from the map
+        //Remove 1 count of each removed value
         for item in skipped {
             let mut current = 0;
             if let Some(value) = instance_map.get(&item) {
