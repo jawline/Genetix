@@ -5,7 +5,7 @@ use conn;
 pub fn make_graph() -> HashMap<i32, Vec<conn::Conn>> {
 	let mut map = HashMap::new();
 
-	for x in 0..100 {
+	for x in 0..1000 {
 		let mut links = Vec::new();
 		for y in 0..100 {
 			if y == x {
