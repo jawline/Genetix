@@ -8,7 +8,21 @@ use graph_walker;
  * Generate a walk using dijkstras
  */
 pub fn genetic(start : i32, end : i32, map : &HashMap<i32, Vec<Conn>>) -> Vec<i32> {
-    let mut populations = [graph_walker::random_walk(start, end, map); 500];
-    populations.sort_by(|&x &y| graph_printer::total_cost(x) < graph_printer::total_cost(y));
-    return populations[0];
+    let mut populations = Vec::new();
+    
+    //Generate initial populations
+    for _ in 0..50 {
+    	populations.push(graph_walker::random_walk(start, end, map));
+    }
+
+    const GENERATIONS : usize = 20;
+
+    for _ in 0..GENERATIONS {
+    	populations.sort_by(|x, y| graph_printer::total_cost(x, map).cmp(&graph_printer::total_cost(y, map)));
+    	for i in 25..50 {
+    		populations[i] = graph_walker::random_walk(start, end, map);
+    	}
+    }
+    
+    return populations.remove(0);
 }

@@ -4,6 +4,7 @@ mod conn;
 mod graph_maker;
 mod graph_printer;
 mod graph_walker;
+mod genetic;
 
 fn main() {
 	let map = graph_maker::make_graph();
@@ -18,4 +19,7 @@ fn main() {
 	
 	let random_path_norepeat = graph_walker::random_walk_norepeat(0, 30, &map);
 	graph_printer::output_path(&random_path_norepeat, &map);
+
+	let genetic_path = genetic::genetic(0, 30, &map);
+	graph_printer::output_path(&genetic_path, &map);
 }
