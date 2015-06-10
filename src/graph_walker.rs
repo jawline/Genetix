@@ -10,10 +10,8 @@ use rand::distributions::{IndependentSample, Range};
  * Generate a walk using dijkstras
  */
 pub fn dijkstras(start : i32, end : i32, map : &HashMap<i32, Vec<Conn>>) -> Vec<i32> {
-	let mut current = start;
-	
 	let mut dists = HashMap::new();
-	let mut prev = HashMap::<i32, i32>::new();
+	let mut prev = HashMap::new();
 	let mut untravelled = Vec::new();
 
 	for (&item, _) in map {
@@ -36,7 +34,6 @@ pub fn dijkstras(start : i32, end : i32, map : &HashMap<i32, Vec<Conn>>) -> Vec<
 	}
 
 	let mut result = Vec::new();
-
 	let mut cur = end;
 
 	while cur != start {
