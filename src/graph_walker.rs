@@ -11,16 +11,41 @@ use rand::distributions::{IndependentSample, Range};
  */
 pub fn dijkstras(start : i32, end : i32, map : &HashMap<i32, Vec<Conn>>) -> Vec<i32> {
 	let mut current = start;
+	
+	let mut dists = HashMap::new();
+	let mut prev = HashMap::<i32, i32>::new();
+	let mut untravelled = Vec::new();
+
+	for (&item, _) in map {
+		dists.insert(item, 9999999);
+		untravelled.push(item);
+	}
+
+	dists.insert(start, 0);
+
+	while untravelled.len() > 0 {
+		untravelled.sort_by(|&x, &y| dists[&y].cmp(&dists[&x]));
+		let u = untravelled.pop().unwrap();
+		for neighbor in &map[&u] {
+			let alt = dists[&u] + neighbor.cost;
+			if alt < dists[&neighbor.dest] {
+				dists.insert(neighbor.dest, alt);
+				prev.insert(neighbor.dest, u);
+			}
+		}
+	}
+
 	let mut result = Vec::new();
 
-	result.push(start);
+	let mut cur = end;
 
-	while current != end {
-		let ref paths = map[&current];
-		let shortest = paths.iter().filter(|&x| result.iter().find(|&y| *y == x.dest).is_none()).min().unwrap();
-		current = shortest.dest;
-		result.push(current);
+	while cur != start {
+		result.push(cur);
+		cur = prev[&cur];
 	}
+
+	result.push(cur);
+	result.reverse();
 
 	return result;
 }
