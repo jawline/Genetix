@@ -17,6 +17,7 @@ pub fn genetic(start : i32, end : i32, map : &HashMap<i32, Vec<Conn>>) -> Vec<i3
 
     const GENERATIONS : usize = 20;
 
+    //Discard the worst 50% from the population and remake them, then resort, for GENERATIONS
     for _ in 0..GENERATIONS {
     	populations.sort_by(|x, y| graph_printer::total_cost(x, map).cmp(&graph_printer::total_cost(y, map)));
     	for i in 25..50 {
