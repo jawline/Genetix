@@ -4,6 +4,12 @@ use std::vec::Vec;
 use graph_printer;
 use graph_walker;
 
+fn combine_walk(left : &Vec<i32>, right: &Vec<i32>, map : &HashMap<i32, Vec<Conn>>) -> Vec<i32> {
+    let mut result = Vec::new();
+    result = left.iter().clone().collect();
+    return result;
+}
+
 /**
  * Generate a walk using dijkstras
  */
