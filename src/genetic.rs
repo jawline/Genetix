@@ -4,8 +4,19 @@ use std::vec::Vec;
 use graph_printer;
 use graph_walker;
 
-fn walk_cost(from:i32, to:i32, path : &Vec<i32>) -> i32 {
-    return 0;
+fn walk_cost(from:i32, to:i32, path : &Vec<i32>, map : &HashMap<i32, Vec<Conn>>)) -> i32 {
+    let start = list.iter().position(|&x| *x == s).unwrap();
+    let end = list.iter().position(|&x| *x == r).unwrap();
+    
+    let mut cost = 0;
+    let mut current = start;
+    
+    while current != end {
+        cost += graph_printer::cost(path[current], path[current+1], map);
+        current++;
+    }
+    
+    return cost;
 }
 
 fn combine_walk(left : &Vec<i32>, right: &Vec<i32>, map : &HashMap<i32, Vec<Conn>>) -> Vec<i32> {
