@@ -4,7 +4,20 @@ use std::vec::Vec;
 use graph_printer;
 use graph_walker;
 
+fn walk_cost(from:i32, to:i32, path : &Vec<i32>) -> i32 {
+    return 0;
+}
+
 fn combine_walk(left : &Vec<i32>, right: &Vec<i32>, map : &HashMap<i32, Vec<Conn>>) -> Vec<i32> {
+
+    for item in left {
+        for other in left {
+            if walk_cost(item, other, left) < walk_cost(item, other, right) {
+                println!("Can reduce between {} and {}", item, other);
+            }
+        }
+    }
+
     let mut result = Vec::new();
     result = left.iter().cloned().collect();
     return result;
