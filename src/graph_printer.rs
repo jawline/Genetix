@@ -11,9 +11,9 @@ pub fn output_connections(map : &HashMap<i32, Vec<conn::Conn>>) {
 	}
 }
 
-fn cost(from : &i32, to : &i32, map : &HashMap<i32, Vec<conn::Conn>>) -> i32 {
-	for conn in &map[from] {
-		if conn.dest == *to {
+pub fn cost(from : i32, to : i32, map : &HashMap<i32, Vec<conn::Conn>>) -> i32 {
+	for conn in &map[&from] {
+		if conn.dest == to {
 			return conn.cost;
 		}
 	}
@@ -24,9 +24,9 @@ pub fn total_cost(path : &Vec<i32>, map : &HashMap<i32, Vec<conn::Conn>>) -> i32
 	let mut total_cost = 0;
 	let mut last = path[0];
 
-	for next in path.iter().skip(1) {
-		total_cost += cost(&last, next, map);
-		last = *next;
+	for &next in path.iter().skip(1) {
+		total_cost += cost(last, next, map);
+		last = next;
 	}
 
 	return total_cost;
@@ -35,10 +35,10 @@ pub fn total_cost(path : &Vec<i32>, map : &HashMap<i32, Vec<conn::Conn>>) -> i32
 pub fn output_path(path : &Vec<i32>, map : &HashMap<i32, Vec<conn::Conn>>) {
 	let mut last = path[0];
 
-	for next in path.iter().skip(1) {
-		let cost = cost(&last, next, map);
-		println!("From {} to {} (Cost {})", &last, *next, cost);
-		last = *next;
+	for &next in path.iter().skip(1) {
+		let cost = cost(last, next, map);
+		println!("From {} to {} (Cost {})", last, next, cost);
+		last = next;
 	}
 
 	println!("Done (Total Cost: {})", total_cost(path, map));

@@ -4,16 +4,16 @@ use std::vec::Vec;
 use graph_printer;
 use graph_walker;
 
-fn walk_cost(from:i32, to:i32, path : &Vec<i32>, map : &HashMap<i32, Vec<Conn>>)) -> i32 {
-    let start = list.iter().position(|&x| *x == s).unwrap();
-    let end = list.iter().position(|&x| *x == r).unwrap();
+fn walk_cost(from:i32, to:i32, path : &Vec<i32>, map : &HashMap<i32, Vec<Conn>>) -> i32 {
+    let start = path.iter().position(|&x| x == from).unwrap();
+    let end = path.iter().position(|&x| x == to).unwrap();
     
     let mut cost = 0;
     let mut current = start;
     
     while current != end {
         cost += graph_printer::cost(path[current], path[current+1], map);
-        current++;
+        current += 1;
     }
     
     return cost;
@@ -23,7 +23,7 @@ fn combine_walk(left : &Vec<i32>, right: &Vec<i32>, map : &HashMap<i32, Vec<Conn
 
     for item in left {
         for other in left {
-            if walk_cost(item, other, left) < walk_cost(item, other, right) {
+            if walk_cost(*item, *other, left, map) < walk_cost(*item, *other, right, map) {
                 println!("Can reduce between {} and {}", item, other);
             }
         }
