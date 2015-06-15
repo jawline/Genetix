@@ -13,16 +13,14 @@ fn walk_cost(from:i32, to:i32, path : &Vec<i32>, map : &HashMap<i32, Vec<Conn>>)
     if let Some(start) = start_op {
     	if let Some(end) = end_op {
     		if start < end {
-	    	    let mut cost = 0;
-			    let mut current = start;
-			    
-			    while current != end {
-			        cost += graph_printer::cost(path[current], path[current+1], map);
-			        current += 1;
-			    }
-
-			    result = Some(cost);
-		    }
+	    		let mut cost = 0;
+			let mut current = start;
+			while current != end {
+				cost += graph_printer::cost(path[current], path[current+1], map);
+				current += 1;
+			}
+			result = Some(cost);
+		}
     	}
     }
     
