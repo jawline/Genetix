@@ -5,22 +5,25 @@ use graph_printer;
 use graph_walker;
 
 fn walk_cost(from:i32, to:i32, path : &Vec<i32>, map : &HashMap<i32, Vec<Conn>>) -> Option<i32> {
-    let pos = (path.iter().position(|&x| x == from), path.iter().position(|&x| x == to));
-    let mut result : Option<i32> = None;
-
-    if let (Some(start), Some(end)) = pos;
-    	if start < end {
-	    	let mut cost = 0;
+    let fromPos = path.iter().position(|&x| x == from);
+    let toPos = path.iter().position(|&x| x == to);
+    
+    if fromPos == None || toPos == None {
+    	None;
+    } else {
+	    let (start, end) = (fromPos.unwrap(), toPos.unwrap());
+	    if start < end {
+	        let mut cost = 0;
 		let mut current = start;
 		while current != end {
 			cost += graph_printer::cost(path[current], path[current+1], map);
 			current += 1;
 		}
-		result = Some(cost);
-	}
+		Some(cost);
+	    } else {
+	    	None;
+	    }
     }
-    
-    return result;
 }
 
 fn longest_reduction(left : &Vec<i32>, right : &Vec<i32>, map : &HashMap<i32, Vec<Conn>>) -> Option<((usize, usize), (usize, usize))> {
