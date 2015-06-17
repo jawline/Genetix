@@ -27,7 +27,7 @@ fn walk_cost(from:i32, to:i32, path : &Vec<i32>, map : &HashMap<i32, Vec<Conn>>)
     return result;
 }
 
-fn longest_reduction(left : &Vec<i32>, right : &Vec<i32>) -> Option<((usize, usize), (usize, usize))> {
+fn longest_reduction(left : &Vec<i32>, right : &Vec<i32>, map : &HashMap<i32, Vec<Conn>>) -> Option<((usize, usize), (usize, usize))> {
     let mut longestReduction = None;
     let mut longestReductionPos = None;
     
@@ -37,7 +37,7 @@ fn longest_reduction(left : &Vec<i32>, right : &Vec<i32>) -> Option<((usize, usi
             if let Some(reduction) = reductionOption {
                 if reduction > 0 && ((longestReduction != None && reduction > longestReduction.unwrap()) || longestReduction == None) {
                 	longestReduction = Some(reduction);
-                	longestReductionPos = Some((x, y), (right.iter().position(|&i| i == left[x]).unwrap(), right.iter().position(|&i| i == left[y]).unwrap()));
+                	longestReductionPos = Some(((x, y), (right.iter().position(|&i| i == left[x]).unwrap(), right.iter().position(|&i| i == left[y]).unwrap())));
                 }
             }
         }
@@ -45,38 +45,21 @@ fn longest_reduction(left : &Vec<i32>, right : &Vec<i32>) -> Option<((usize, usi
     
     match longestReduction {
     	None => None,
-    	_ => (longestReductionLocalPos.unwrap(), longestReductionPos.unwrap())
+    	_ => longestReductionPos
     }
 }
 
-fn combine_walk(left : &Vec<i32>, right: &Vec<i32>) -> Vec<i32> {
+fn combine_walk(left : &Vec<i32>, right: &Vec<i32>, map : &HashMap<i32, Vec<Conn>>) -> Vec<i32> {
     
-    let mut longestReduction = None;
-    let mut longestReductionLocalPos = None;
-    let mut longestReductionPos = (None, None);
-    
-    for x in 0..left.len() {
-        for y in x + 1..left.len() {
-            let reductionOption = walk_cost(left[x], left[y], right, map) - walk_cost(left[x], left[y], left, map);
-            if let Some(reduction) = reductionOption {
-                if reduction > 0 && ((longestReduction != None && reduction > longestReduction.unwrap()) || longestReduction == None) {
-                	longestReduction = Some(reduction);
-                	longestReductionPos = (right.iter().position(|&i| i == left[x]), right.iter().position(|&i| i == left[y]));
-                	longestReductionLocalPos = Some((x, y));
-                }
-            }
-        }
-    }
+    let longestReduction = longest_reduction(left, right, map);
     
     let result;
     
-    if let Some((start, end)) = longestReductionLocalPos {
-    	let (rightStartOp, rightEndOp) = longestReductionPos;
-    	let (rightStart, rightEnd) = (rightStartOp.unwrap(), rightEndOp.unwrap());
-    	result = left.iter().cloned().take(start).chain(
+    if let Some(((leftStart, leftEnd), (rightStart, rightEnd))) = longestReductionLocalPos {
+    	result = left.iter().cloned().take(leftStart).chain(
     	    right.iter().cloned().skip(rightStart).take(rightEnd)
     	).chain(
-    	    left.iter().cloned().skip(start + (rightEnd - rightStart))
+    	    left.iter().cloned().skip(leftEnd)
     	).collect();
     } else {
     	result = left.iter().cloned().collect();
