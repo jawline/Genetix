@@ -8,22 +8,20 @@ fn walk_cost(from:i32, to:i32, path : &Vec<i32>, map : &HashMap<i32, Vec<Conn>>)
     let fromPos = path.iter().position(|&x| x == from);
     let toPos = path.iter().position(|&x| x == to);
     
-    if fromPos == None || toPos == None {
-    	None;
-    } else {
-	    let (start, end) = (fromPos.unwrap(), toPos.unwrap());
-	    if start < end {
+    if fromPos != None && toPos != None {
+	let (start, end) = (fromPos.unwrap(), toPos.unwrap());
+	if start < end {
 	        let mut cost = 0;
 		let mut current = start;
 		while current != end {
 			cost += graph_printer::cost(path[current], path[current+1], map);
 			current += 1;
 		}
-		Some(cost);
-	    } else {
-	    	None;
-	    }
+		return Some(cost);
+	}
     }
+    
+    return None;
 }
 
 fn longest_reduction(left : &Vec<i32>, right : &Vec<i32>, map : &HashMap<i32, Vec<Conn>>) -> Option<((usize, usize), (usize, usize))> {
@@ -42,7 +40,7 @@ fn longest_reduction(left : &Vec<i32>, right : &Vec<i32>, map : &HashMap<i32, Ve
         }
     }
     
-    match longestReduction {
+    return match longestReduction {
     	None => None,
     	_ => longestReductionPos
     }
