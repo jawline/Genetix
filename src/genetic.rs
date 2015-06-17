@@ -30,6 +30,7 @@ fn walk_cost(from:i32, to:i32, path : &Vec<i32>, map : &HashMap<i32, Vec<Conn>>)
 fn combine_walk(left : &Vec<i32>, right: &Vec<i32>, map : &HashMap<i32, Vec<Conn>>) -> Vec<i32> {
     
     let mut longestReduction = None;
+    let mut longestReductionLocalPos = None;
     let mut longestReductionPos = (None, None);
     
     for x in 0..left.len() {
@@ -38,11 +39,21 @@ fn combine_walk(left : &Vec<i32>, right: &Vec<i32>, map : &HashMap<i32, Vec<Conn
             if reduction > longestReduction {
             	longestReduction = reduction;
             	longestReductionPos = (right.find(|&i| i == left[x]), right.find(|&i| i == left[y]));
+            	longestReductionLocalPos = (x, y);
             }
         }
     }
+    
+    let result;
+    
+    if let (start, end) = longestReductionLocalPos {
+    	let (rightStopOp, rightEndOp) = longestReductionPos;
+    	let (rightStart, rightEnd) = (rightStopOp.unwrap(), rightEndOp.unwrap());
+    	let result = left.iter().cloned().take(start).cloned().chain(right.iter().cloned().drop(rightStart).take(rightEnd)).chain(left.iter().cloned().drop(start + (rightEnd - rightStart))).collect();
+    } else {
+    	result = left.iter().cloned().collect();
+    }
 
-    let result = left.iter().cloned().collect();
     return result;
 }
 
