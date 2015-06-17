@@ -28,11 +28,16 @@ fn walk_cost(from:i32, to:i32, path : &Vec<i32>, map : &HashMap<i32, Vec<Conn>>)
 }
 
 fn combine_walk(left : &Vec<i32>, right: &Vec<i32>, map : &HashMap<i32, Vec<Conn>>) -> Vec<i32> {
-
+    
+    let mut longestReduction = None;
+    let mut longestReductionPos = (None, None);
+    
     for x in 0..left.len() {
         for y in x + 1..left.len() {
-            if walk_cost(left[x], left[y], left, map) < walk_cost(left[x], left[y], right, map) {
-                println!("Can reduce between {} and {}", left[x], left[y]);
+            let reduction = walk_cost(left[x], left[y], left, map) < walk_cost(left[x], left[y], right, map);
+            if reduction > longestReduction {
+            	longestReduction = reduction;
+            	longestReductionPos = (right.find(|&i| i == left[x]), right.find(|&i| i == left[y]));
             }
         }
     }
