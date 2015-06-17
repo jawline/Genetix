@@ -33,12 +33,12 @@ fn longest_reduction(left : &Vec<i32>, right : &Vec<i32>, map : &HashMap<i32, Ve
             if leftCost != None && rightCost != None {
 	        let reduction = rightCost.unwrap() - leftCost.unwrap();
 	        
-	        let currentLongest = match longestReduction {
+	        let currentReduction = match longestReduction {
 	        	None => 0,
 	        	(reduction, _, _) => reduction
 	        }
 	        
-	        if reduction > 0 && reduction > currentLongest {
+	        if reduction > currentReduction {
 	            let leftPositions = (x,y);
 	            let rightPositions = (right.iter().position(|&i| i == left[x]).unwrap(), right.iter().position(|&i| i == left[y]).unwrap());
 	            longestReduction = Some((reduction, leftPositions, rightPositions));
