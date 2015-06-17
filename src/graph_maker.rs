@@ -8,6 +8,8 @@ use conn;
 pub fn make_graph() -> HashMap<i32, Vec<conn::Conn>> {
 	let mut map = HashMap::new();
 	let mut rng = rand::thread_rng();
+	
+	const max_link_cost : i32 = 8000;
 
 	for x in 0..1000 {
 		let mut links = Vec::new();
@@ -17,7 +19,7 @@ pub fn make_graph() -> HashMap<i32, Vec<conn::Conn>> {
 			} else {
 				links.push(conn::Conn{
 					dest: y,
-					cost: Range::new(0, 8000).ind_sample(&mut rng)
+					cost: Range::new(0, max_link_cost).ind_sample(&mut rng)
 				});
 			}
 		}
