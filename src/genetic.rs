@@ -34,13 +34,16 @@ fn longest_reduction(left : &Vec<i32>, right : &Vec<i32>, map : &HashMap<i32, Ve
     
     for x in 0..left.len() {
         for y in x + 1..left.len() {
-            let reductionOption = walk_cost(left[x], left[y], right, map) - walk_cost(left[x], left[y], left, map);
-            if let Some(reduction) = reductionOption {
-                if reduction > 0 && ((longestReduction != None && reduction > longestReduction.unwrap()) || longestReduction == None) {
-                	longestReduction = Some(reduction);
-                	longestReductionPos = Some(((x, y), (right.iter().position(|&i| i == left[x]).unwrap(), right.iter().position(|&i| i == left[y]).unwrap())));
-                }
-            }
+            let (leftCost, rightCost) = (walk_cost(left[x], left[y], left, map), walk_cost(left[x], left[y], right, map));
+            if leftCost != None && rightCost != None {
+	        let reduction = rightCost.unwrap() - leftCost.unwrap();
+	        if reduction > 0 && (longestReduction == None || longestReduction.unwrap() < reduction) {
+	            longestReduction = Some(reduction);
+	            let leftPositions = (x,y);
+	            let rightPositions = (right.iter().position(|&i| i == left[x]).unwrap(), right.iter().position(|&i| i == left[y]).unwrap());
+	            longestReductionPos = Some((leftPositions, rightPositions));
+	        }
+	    }
         }
     }
     
