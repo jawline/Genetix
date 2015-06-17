@@ -24,26 +24,30 @@ fn walk_cost(from:i32, to:i32, path : &Vec<i32>, map : &HashMap<i32, Vec<Conn>>)
     return None;
 }
 
-fn longest_reduction(left : &Vec<i32>, right : &Vec<i32>, map : &HashMap<i32, Vec<Conn>>) -> Option<((usize, usize), (usize, usize))> {
+fn longest_reduction(left : &Vec<i32>, right : &Vec<i32>, map : &HashMap<i32, Vec<Conn>>) -> Option<(usize, (usize, usize), (usize, usize))> {
     let mut longestReduction = None;
-    let mut longestReductionPos = None;
     
     for x in 0..left.len() {
         for y in x + 1..left.len() {
             let (leftCost, rightCost) = (walk_cost(left[x], left[y], left, map), walk_cost(left[x], left[y], right, map));
             if leftCost != None && rightCost != None {
 	        let reduction = rightCost.unwrap() - leftCost.unwrap();
-	        if reduction > 0 && (longestReduction == None || longestReduction.unwrap() < reduction) {
+	        
+	        let currentLongest = match longestReduction {
+	        	None => 0,
+	        	(reduction, _, _) => reduction
+	        }
+	        
+	        if reduction > 0 && reduction > currentLongest {
 	            let leftPositions = (x,y);
 	            let rightPositions = (right.iter().position(|&i| i == left[x]).unwrap(), right.iter().position(|&i| i == left[y]).unwrap());
-	            longestReduction = Some(reduction);
-	            longestReductionPos = Some((leftPositions, rightPositions));
+	            longestReduction = Some((reduction, leftPositions, rightPositions));
 	        }
 	    }
         }
     }
     
-    return longestReductionPos;
+    return longestReduction;
 }
 
 fn combine_walk(left : &Vec<i32>, right: &Vec<i32>, map : &HashMap<i32, Vec<Conn>>) -> Vec<i32> {
