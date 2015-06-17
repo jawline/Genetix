@@ -7,7 +7,7 @@ use graph_walker;
 fn walk_cost(from:i32, to:i32, path : &Vec<i32>, map : &HashMap<i32, Vec<Conn>>) -> Option<i32> {
     let fromPos = path.iter().position(|&x| x == from);
     let toPos = path.iter().position(|&x| x == to);
-    let result;
+    let mut result = None;
 
     if fromPos != None && toPos != None {
 	let (start, end) = (fromPos.unwrap(), toPos.unwrap());
@@ -20,8 +20,6 @@ fn walk_cost(from:i32, to:i32, path : &Vec<i32>, map : &HashMap<i32, Vec<Conn>>)
 		}
 		result = Some(cost);
 	}
-    } else {
-    	result = None;
     }
 
     return result;
