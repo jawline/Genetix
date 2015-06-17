@@ -29,7 +29,6 @@ fn walk_cost(from:i32, to:i32, path : &Vec<i32>, map : &HashMap<i32, Vec<Conn>>)
 
 fn longest_reduction(left : &Vec<i32>, right : &Vec<i32>) -> Option<((usize, usize), (usize, usize))> {
     let mut longestReduction = None;
-    let mut longestReductionLocalPos = None;
     let mut longestReductionPos = None;
     
     for x in 0..left.len() {
@@ -38,8 +37,7 @@ fn longest_reduction(left : &Vec<i32>, right : &Vec<i32>) -> Option<((usize, usi
             if let Some(reduction) = reductionOption {
                 if reduction > 0 && ((longestReduction != None && reduction > longestReduction.unwrap()) || longestReduction == None) {
                 	longestReduction = Some(reduction);
-                	longestReductionPos = Some((right.iter().position(|&i| i == left[x]).unwrap(), right.iter().position(|&i| i == left[y]).unwrap()));
-                	longestReductionLocalPos = Some((x, y));
+                	longestReductionPos = Some((x, y), (right.iter().position(|&i| i == left[x]).unwrap(), right.iter().position(|&i| i == left[y]).unwrap()));
                 }
             }
         }
