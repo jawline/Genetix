@@ -27,7 +27,7 @@ fn walk_cost(from:i32, to:i32, path : &Vec<i32>, map : &HashMap<i32, Vec<Conn>>)
     return result;
 }
 
-fn combine_walk(left : &Vec<i32>, right: &Vec<i32>, map : &HashMap<i32, Vec<Conn>>) -> Vec<i32> {
+fn combine_walk(left : &Vec<i32>, right: &Vec<i32>) -> Vec<i32> {
     
     let mut longestReduction = None;
     let mut longestReductionLocalPos = None;
@@ -35,21 +35,27 @@ fn combine_walk(left : &Vec<i32>, right: &Vec<i32>, map : &HashMap<i32, Vec<Conn
     
     for x in 0..left.len() {
         for y in x + 1..left.len() {
-            let reduction = walk_cost(left[x], left[y], left, map) < walk_cost(left[x], left[y], right, map);
-            if reduction > longestReduction {
-            	longestReduction = reduction;
-            	longestReductionPos = (right.find(|&i| i == left[x]), right.find(|&i| i == left[y]));
-            	longestReductionLocalPos = (x, y);
+            let reductionOption = walk_cost(left[x], left[y], right, map) - walk_cost(left[x], left[y], left, map);
+            if let Some(reduction) = reductionOption {
+                if reduction > 0 && ((longestReduction != None && reduction > longestReduction.unwrap()) || longestReduction == None) {
+                	longestReduction = Some(reduction);
+                	longestReductionPos = (right.iter().position(|&i| i == left[x]), right.iter().position(|&i| i == left[y]));
+                	longestReductionLocalPos = Some((x, y));
+                }
             }
         }
     }
     
     let result;
     
-    if let (start, end) = longestReductionLocalPos {
-    	let (rightStopOp, rightEndOp) = longestReductionPos;
-    	let (rightStart, rightEnd) = (rightStopOp.unwrap(), rightEndOp.unwrap());
-    	let result = left.iter().cloned().take(start).cloned().chain(right.iter().cloned().drop(rightStart).take(rightEnd)).chain(left.iter().cloned().drop(start + (rightEnd - rightStart))).collect();
+    if let Some((start, end)) = longestReductionLocalPos {
+    	let (rightStartOp, rightEndOp) = longestReductionPos;
+    	let (rightStart, rightEnd) = (rightStartOp.unwrap(), rightEndOp.unwrap());
+    	result = left.iter().cloned().take(start).chain(
+    	    right.iter().cloned().skip(rightStart).take(rightEnd)
+    	).chain(
+    	    left.iter().cloned().skip(start + (rightEnd - rightStart))
+    	).collect();
     } else {
     	result = left.iter().cloned().collect();
     }
