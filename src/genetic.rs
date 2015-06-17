@@ -45,7 +45,7 @@ fn longest_reduction(left : &Vec<i32>, right : &Vec<i32>) -> Option<((usize, usi
     
     match longestReduction {
     	None => None,
-    	Some => (longestReductionLocalPos.unwrap(), longestReductionPos.unwrap());
+    	_ => (longestReductionLocalPos.unwrap(), longestReductionPos.unwrap())
     }
 }
 
