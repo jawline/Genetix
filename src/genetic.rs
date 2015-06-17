@@ -51,22 +51,17 @@ fn longest_reduction(left : &Vec<i32>, right : &Vec<i32>, map : &HashMap<i32, Ve
 }
 
 fn combine_walk(left : &Vec<i32>, right: &Vec<i32>, map : &HashMap<i32, Vec<Conn>>) -> Vec<i32> {
-    
     let longestReduction = longest_reduction(left, right, map);
-    
-    let result;
-    
-    if let Some(((leftStart, leftEnd), (rightStart, rightEnd))) = longestReductionLocalPos {
-    	result = left.iter().cloned().take(leftStart).chain(
-    	    right.iter().cloned().skip(rightStart).take(rightEnd)
-    	).chain(
-    	    left.iter().cloned().skip(leftEnd)
-    	).collect();
-    } else {
-    	result = left.iter().cloned().collect();
+    match longestReductionLocalPos {
+    	None => left.iter().cloned().collect(),
+    	Some(((leftStart, leftEnd), (rightStart, rightEnd))) => {
+    		left.iter().cloned().take(leftStart).chain(
+    			right.iter().cloned().skip(rightStart).take(rightEnd)
+    		).chain(
+    			left.iter().cloned().skip(leftEnd)
+    		).collect()
+    	}
     }
-
-    return result;
 }
 
 /**
