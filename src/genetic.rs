@@ -47,10 +47,7 @@ fn longest_reduction(left : &Vec<i32>, right : &Vec<i32>, map : &HashMap<i32, Ve
         }
     }
     
-    return match longestReduction {
-    	None => None,
-    	_ => longestReductionPos
-    }
+    return longestReductionPos;
 }
 
 fn combine_walk(left : &Vec<i32>, right: &Vec<i32>, map : &HashMap<i32, Vec<Conn>>) -> Vec<i32> {
