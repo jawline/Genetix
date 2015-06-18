@@ -43,7 +43,7 @@ fn longest_reduction(left : &Vec<i32>, right : &Vec<i32>, map : &HashMap<i32, Ve
 	        if reduction > currentReduction {
 	            let left_positions = (x,y);
 	            let right_positions = (right_start.unwrap(), right_end.unwrap());
-	            best_reduction = Some((reduction, leftPositions, rightPositions));
+	            best_reduction = Some((reduction, left_positions, right_positions));
 	        }
 	    }
         }
