@@ -84,13 +84,13 @@ pub fn genetic(start : i32, end : i32, map : &HashMap<i32, Vec<Conn>>) -> Vec<i3
 
     	let mut combined = populations.pop().unwrap();
 
-	output_path(combined, map);
+	graph_printer::output_path(combined, map);
 
     	for item in populations.iter().skip(COMBINE_AMOUNT - 1).take(COMBINE_AMOUNT) {
     		combined = combine_walk(&combined, item, map);
     	}
     	
-    	output_path(combined, map);
+    	graph_printer::output_path(combined, map);
 
     	for item in populations.iter_mut().rev().skip(1) {
     		*item = graph_walker::random_walk(start, end, map);
