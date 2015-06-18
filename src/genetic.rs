@@ -46,7 +46,7 @@ fn longest_reduction(left : &Vec<i32>, right : &Vec<i32>, map : &HashMap<i32, Ve
 	        	Some((reduction, _, _)) => reduction
 	        };
 	        
-	        println!("Potential: {}", amount_reduced);
+	        println!("Potential: {} ({},{})", amount_reduced, left_walk_cost.unwrap(), right_walk_cost.unwrap());
 	        if amount_reduced > best_reduction_amount {
 	            let left_positions = (x,y);
 	            let right_positions = (right_start.unwrap(), right_end.unwrap());
