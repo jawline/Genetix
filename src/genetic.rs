@@ -4,22 +4,23 @@ use std::vec::Vec;
 use graph_printer;
 use graph_walker;
 
-fn walk_cost(from:i32, to:i32, path : &Vec<i32>, map : &HashMap<i32, Vec<Conn>>) -> Option<i32> {
-    let fromPos = path.iter().position(|&x| x == from);
-    let toPos = path.iter().position(|&x| x == to);
-
-    if fromPos != None && toPos != None {
-	let (start, end) = (fromPos.unwrap(), toPos.unwrap());
-	if start < end {
-	        let mut cost = 0;
-		let mut current = start;
-		while current != end {
-			cost += graph_printer::cost(path[current], path[current+1], map);
-			current += 1;
-		}
-		return Some(cost);
-	}
+fn walk_cost(start_op:Option<usize>, end_op:Option<usize>, path : &Vec<i32>, map : &HashMap<i32, Vec<Conn>>) -> Option<i32> {
+    
+    if start_op == None || end_op == None {
+    	return None;
     }
+    
+    let (start, end) = (start_op.unwrap(), end_op.unwrap());
+    
+    if start < end {
+	let mut cost = 0;
+	let mut current = start;
+	while current != end {
+		cost += graph_printer::cost(path[current], path[current+1], map);
+		current += 1;
+	}
+	return Some(cost);
+   }
 
     return None;
 }
@@ -29,7 +30,8 @@ fn longest_reduction(left : &Vec<i32>, right : &Vec<i32>, map : &HashMap<i32, Ve
     
     for x in 0..left.len() {
         for y in x + 1..left.len() {
-            let (leftCost, rightCost) = (walk_cost(left[x], left[y], left, map), walk_cost(left[x], left[y], right, map));
+            let (right_start, right_end) = (right.iter().position(|&i| i == left[x]), right.iter().position(|&i| i == left[y]));
+            let (leftCost, rightCost) = (walk_cost(x, y, left, map), walk_cost(right_start, right_end, right, map));
             if leftCost != None && rightCost != None {
 	        let reduction = -(rightCost.unwrap() - leftCost.unwrap());
 	        
@@ -39,8 +41,8 @@ fn longest_reduction(left : &Vec<i32>, right : &Vec<i32>, map : &HashMap<i32, Ve
 	        };
 	        
 	        if reduction > currentReduction {
-	            let leftPositions = (left.iter().position(|&i| i == left[x]).unwrap(), left.iter().position(|&i| i == left[y]).unwrap());
-	            let rightPositions = (right.iter().position(|&i| i == left[x]).unwrap(), right.iter().position(|&i| i == left[y]).unwrap());
+	            let leftPositions = (x,y);
+	            let rightPositions = (right_start.unwrap(), right_end.unwrap());
 	            longestReduction = Some((reduction, leftPositions, rightPositions));
 	        }
 	    }
