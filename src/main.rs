@@ -10,7 +10,7 @@ fn main() {
 	let map = graph_maker::make_graph();
 	
 	let random_path = graph_walker::random_walk(0, 500, &map);
-	graph_printer::output_path(&path, &map);
+	graph_printer::output_path(&random_path, &map);
 
 	let path = graph_walker::dijkstras(0, 30, &map);
 	graph_printer::output_path(&path, &map);
