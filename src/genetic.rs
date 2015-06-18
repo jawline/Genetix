@@ -74,18 +74,18 @@ fn combine_walk(left : &Vec<i32>, right: &Vec<i32>, map : &HashMap<i32, Vec<Conn
 }
 
 /**
- * Generate a walk using dijkstras
+ * Generate a walk using a weird genetic algorithm
  */
 pub fn genetic(start : i32, end : i32, map : &HashMap<i32, Vec<Conn>>) -> Vec<i32> {
     let mut populations = Vec::new();
     
     //Generate initial populations
-    for _ in 0..25 {
+    for _ in 0..50 {
     	populations.push(graph_walker::random_walk(start, end, map));
     }
 
     const COMBINE_AMOUNT : usize = 10;
-    const GENERATIONS : usize = 40;
+    const GENERATIONS : usize = 10;
 
     //Discard the worst 50% from the population and remake them, then resort, for GENERATIONS
     for gen in 0..GENERATIONS {
