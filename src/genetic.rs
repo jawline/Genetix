@@ -55,7 +55,7 @@ fn longest_reduction(left : &Vec<i32>, right : &Vec<i32>, map : &HashMap<i32, Ve
 fn combine_walk(left : &Vec<i32>, right: &Vec<i32>, map : &HashMap<i32, Vec<Conn>>) -> Option<Vec<i32>> {
     return match longest_reduction(left, right, map) {
     	None => None,
-    	Some((reduced_by, (left_start, left_end), (right_start, right_end))) => 
+    	Some((_, (left_start, left_end), (right_start, right_end))) => 
     		Some(left.iter().cloned().take(left_start).chain(
     			right.iter().cloned().skip(right_start).take(right_end - right_start)
     		).chain(
