@@ -4,7 +4,10 @@ use std::vec::Vec;
 use graph_printer;
 use graph_walker;
 
-fn walk_cost(start_op:Option<usize>, end_op:Option<usize>, path : &Vec<i32>, map : &HashMap<i32, Vec<Conn>>) -> Option<i32> {
+/**
+ * Function that returns the cost of the walk between two indices
+ */
+fn subwalk_cost(start_op:Option<usize>, end_op:Option<usize>, path : &Vec<i32>, map : &HashMap<i32, Vec<Conn>>) -> Option<i32> {
     
     if start_op == None || end_op == None {
     	return None;
@@ -25,13 +28,16 @@ fn walk_cost(start_op:Option<usize>, end_op:Option<usize>, path : &Vec<i32>, map
     return None;
 }
 
+/**
+ * Function that finds the longest viable reduction in a walk
+ */
 fn longest_reduction(left : &Vec<i32>, right : &Vec<i32>, map : &HashMap<i32, Vec<Conn>>) -> Option<(i32, (usize, usize), (usize, usize))> {
     let mut best_reduction = None;
     
     for x in 0..left.len() {
         for y in x + 1..left.len() {
             let (right_start, right_end) = (right.iter().position(|&i| i == left[x]), right.iter().position(|&i| i == left[y]));
-            let (left_walk_cost, right_walk_cost) = (walk_cost(Some(x), Some(y), left, map), walk_cost(right_start, right_end, right, map));
+            let (left_walk_cost, right_walk_cost) = (subwalk_cost(Some(x), Some(y), left, map), subwalk_cost(right_start, right_end, right, map));
             if left_walk_cost != None && right_walk_cost != None {
 	        let amount_reduced = -(right_walk_cost.unwrap() - left_walk_cost.unwrap());
 	        
@@ -52,6 +58,9 @@ fn longest_reduction(left : &Vec<i32>, right : &Vec<i32>, map : &HashMap<i32, Ve
     return best_reduction;
 }
 
+/**
+ * Attempt to combine the best features of two walks
+ */
 fn combine_walk(left : &Vec<i32>, right: &Vec<i32>, map : &HashMap<i32, Vec<Conn>>) -> Option<Vec<i32>> {
     return match longest_reduction(left, right, map) {
     	None => None,
@@ -61,7 +70,7 @@ fn combine_walk(left : &Vec<i32>, right: &Vec<i32>, map : &HashMap<i32, Vec<Conn
     		).chain(
     			left.iter().cloned().skip(left_end)
     		).collect())
-    }
+    };
 }
 
 /**
