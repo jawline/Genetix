@@ -14,7 +14,7 @@ pub fn make_graph() -> HashMap<i32, Vec<conn::Conn>> {
 
 	for x in 0..1000 {
 		let mut links = Vec::new();
-		for y in 0..100 {
+		for y in 0..1000 {
 			if y == x {
 				links.push(conn::Conn{dest: y, cost: 0});
 			} else {
