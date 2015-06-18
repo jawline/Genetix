@@ -85,13 +85,13 @@ pub fn genetic(start : i32, end : i32, map : &HashMap<i32, Vec<Conn>>) -> Vec<i3
 
 	println!("Before Reduce: {}", graph_printer::total_cost(&combined, map));
 
-    	for item in populations.iter().skip(COMBINE_AMOUNT - 1).take(COMBINE_AMOUNT) {
+    	for item in populations.iter() {
     		combined = combine_walk(&combined, item, map);
     	}
     	
     	println!("After Reduce: {}", graph_printer::total_cost(&combined, map));
 
-    	for item in populations.iter_mut().rev().skip(1) {
+    	for item in populations.iter_mut() {
     		*item = graph_walker::random_walk(start, end, map);
     	}
 
