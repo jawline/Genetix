@@ -9,7 +9,7 @@ mod genetic;
 fn main() {
 	let map = graph_maker::make_graph();
 	
-	let random_path = graph_walker::random_walk(0, map.iter().count() / 2, &map);
+	let random_path = graph_walker::random_walk(0, (i32) map.iter().count() / 2, &map);
 	graph_printer::output_path(&random_path, &map);
 
 	let path = graph_walker::dijkstras(0, map.iter().count() / 2, &map);
