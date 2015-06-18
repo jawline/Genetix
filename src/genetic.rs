@@ -31,7 +31,7 @@ fn longest_reduction(left : &Vec<i32>, right : &Vec<i32>, map : &HashMap<i32, Ve
         for y in x + 1..left.len() {
             let (leftCost, rightCost) = (walk_cost(left[x], left[y], left, map), walk_cost(left[x], left[y], right, map));
             if leftCost != None && rightCost != None {
-	        let reduction = -(leftCost.unwrap() - rightCost.unwrap());
+	        let reduction = -(rightCost.unwrap() - leftCost.unwrap());
 	        
 	        let currentReduction = match longestReduction {
 	        	None => 0,
