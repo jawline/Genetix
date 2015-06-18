@@ -35,7 +35,7 @@ fn longest_reduction(left : &Vec<i32>, right : &Vec<i32>, map : &HashMap<i32, Ve
 	        
 	        let currentReduction = match longestReduction {
 	        	None => 0,
-	        	(reduction, _, _) => reduction
+	        	Some((reduction, _, _)) => reduction
 	        };
 	        
 	        if reduction > currentReduction {
