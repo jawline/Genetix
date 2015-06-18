@@ -80,12 +80,11 @@ pub fn genetic(start : i32, end : i32, map : &HashMap<i32, Vec<Conn>>) -> Vec<i3
     let mut populations = Vec::new();
     
     //Generate initial populations
-    for _ in 0..50 {
+    for _ in 0..25 {
     	populations.push(graph_walker::random_walk(start, end, map));
     }
 
-    const COMBINE_AMOUNT : usize = 10;
-    const GENERATIONS : usize = 10;
+    const GENERATIONS : usize = 30;
 
     //Discard the worst 50% from the population and remake them, then resort, for GENERATIONS
     for gen in 0..GENERATIONS {
