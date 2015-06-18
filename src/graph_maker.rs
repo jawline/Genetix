@@ -11,10 +11,15 @@ pub fn make_graph() -> HashMap<i32, Vec<conn::Conn>> {
 	let mut rng = rand::thread_rng();
 	
 	const MAX_LINK_COST : i32 = 8000;
+	const MAX_ITEMS : usize = 2000;
+	const MAX_LINKS_PER_ITEM : usize = 400;
+	
+	let number_of_items = Range::new(1, MAX_ITEMS).ind_sample(&mut rng);
 
-	for x in 0..1500 {
+	for x in 0..number_of_items {
+		let number_of_links = Range::new(1, MAX_LINKS_PER_ITEM).ind_sample(&mut rng);
 		let mut links = Vec::new();
-		for y in 0..1500 {
+		for y in 0..number_of_links {
 			if y == x {
 				links.push(conn::Conn{dest: y, cost: 0});
 			} else {
