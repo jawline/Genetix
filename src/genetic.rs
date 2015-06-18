@@ -54,7 +54,7 @@ fn combine_walk(left : &Vec<i32>, right: &Vec<i32>, map : &HashMap<i32, Vec<Conn
     return match longest_reduction(left, right, map) {
     	None => left.iter().cloned().collect(),
     	Some((reduced_by, (left_start, left_end), (right_start, right_end))) => {
-    		println!("Reduce {} Indices: {} {}", reduced_by, (left_start, left_end), (right_start, right_end));
+    		println!("Reduce {} Indices: ({},{}) ({},{})", reduced_by, left_start, left_end, right_start, right_end);
     		left.iter().cloned().take(left_start).chain(
     			right.iter().cloned().skip(right_start).take(right_end - right_start)
     		).chain(
