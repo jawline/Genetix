@@ -53,8 +53,8 @@ fn longest_reduction(left : &Vec<i32>, right : &Vec<i32>, map : &HashMap<i32, Ve
 fn combine_walk(left : &Vec<i32>, right: &Vec<i32>, map : &HashMap<i32, Vec<Conn>>) -> Vec<i32> {
     return match longest_reduction(left, right, map) {
     	None => left.iter().cloned().collect(),
-    	Some((_, (leftStart, leftEnd), (rightStart, rightEnd))) => {
-    		println!("Reduce Between {} {}", leftStart, leftEnd);
+    	Some((amountReduced, (leftStart, leftEnd), (rightStart, rightEnd))) => {
+    		println!("Reduce {} Between {} {}", amountReduced, leftStart, leftEnd);
     		left.iter().cloned().take(leftStart).chain(
     			right.iter().cloned().skip(rightStart).take(rightEnd)
     		).chain(
