@@ -52,9 +52,9 @@ fn longest_reduction(left : &Vec<i32>, right : &Vec<i32>, map : &HashMap<i32, Ve
     return longestReduction;
 }
 
-fn combine_walk(left : &Vec<i32>, right: &Vec<i32>, map : &HashMap<i32, Vec<Conn>>) -> Vec<i32> {
+fn combine_walk(left : &Vec<i32>, right: &Vec<i32>, map : &HashMap<i32, Vec<Conn>>) -> Option<Vec<i32>> {
     return match longest_reduction(left, right, map) {
-    	None => left.iter().cloned().collect(),
+    	None => None,
     	Some((reduced_by, (left_start, left_end), (right_start, right_end))) => {
     		left.iter().cloned().take(left_start).chain(
     			right.iter().cloned().skip(right_start).take(right_end - right_start)
@@ -88,7 +88,9 @@ pub fn genetic(start : i32, end : i32, map : &HashMap<i32, Vec<Conn>>) -> Vec<i3
 	println!("Before Reduce: {}", graph_printer::total_cost(&combined, map));
 
     	for item in populations.iter() {
-    		combined = combine_walk(&combined, item, map);
+    		if let Some(improved) = combine_walk(&combined, item, map) {
+    			combined = improved;
+    		}
     	}
     	
     	println!("After Reduce: {}", graph_printer::total_cost(&combined, map));
