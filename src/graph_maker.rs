@@ -11,8 +11,8 @@ pub fn make_graph() -> HashMap<i32, Vec<conn::Conn>> {
 	let mut rng = rand::thread_rng();
 	
 	const MAX_LINK_COST : i32 = 8000;
-	const MAX_ITEMS : usize = 2000;
-	const MAX_LINKS_PER_ITEM : usize = 400;
+	const MAX_ITEMS : i32 = 2000;
+	const MAX_LINKS_PER_ITEM : i32 = 400;
 	
 	let number_of_items = Range::new(1, MAX_ITEMS).ind_sample(&mut rng);
 
