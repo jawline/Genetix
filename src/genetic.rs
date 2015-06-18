@@ -78,7 +78,7 @@ pub fn genetic(start : i32, end : i32, map : &HashMap<i32, Vec<Conn>>) -> Vec<i3
     	populations.push(graph_walker::random_walk(start, end, map));
     }
 
-    const COMBINE_AMOUNT : usize = 5;
+    const COMBINE_AMOUNT : usize = 10;
     const GENERATIONS : usize = 20;
 
     //Discard the worst 50% from the population and remake them, then resort, for GENERATIONS
