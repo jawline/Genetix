@@ -35,7 +35,7 @@ fn longest_reduction(left : &Vec<i32>, right : &Vec<i32>, map : &HashMap<i32, Ve
             if leftCost != None && rightCost != None {
 	        let reduction = -(rightCost.unwrap() - leftCost.unwrap());
 	        
-	        let currentReduction = match longestReduction {
+	        let currentReduction = match best_reduction {
 	        	None => 0,
 	        	Some((reduction, _, _)) => reduction
 	        };
