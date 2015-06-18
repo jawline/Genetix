@@ -95,7 +95,7 @@ pub fn genetic(start : i32, end : i32, map : &HashMap<i32, Vec<Conn>>) -> Vec<i3
 
 	println!("Before Reduce: {}", graph_printer::total_cost(&combined, map));
 
-    	for item in populations.iter().skip(populations.len() - COMBINE_AMOUNT) {
+    	for item in populations.iter() {
     		if let Some(improved) = combine_walk(&combined, item, map) {
     			combined = improved;
     		}
