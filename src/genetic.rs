@@ -83,7 +83,7 @@ pub fn genetic(start : i32, end : i32, map : &HashMap<i32, Vec<Conn>>) -> Vec<i3
 
     	let mut combined = populations.pop().unwrap();
 
-    	for item in populations.iter().take(populations.len() - 1) {
+    	for item in populations.iter().skip(1).take(populations.len() - 1) {
     		combined = combine_walk(&combined, item, map);
     	}
 
