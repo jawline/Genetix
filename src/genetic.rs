@@ -34,8 +34,8 @@ fn subwalk_cost(start_op:Option<usize>, end_op:Option<usize>, path : &Vec<i32>, 
 fn longest_reduction(left : &Vec<i32>, right : &Vec<i32>, map : &HashMap<i32, Vec<Conn>>) -> Option<(i32, (usize, usize), (usize, usize))> {
     let mut best_reduction = None;
     
-    for x in 0..left.len() {
-        for y in x + 1..left.len() {
+    for x in 1..left.len() {
+        for y in x + 1..left.len() - 1 {
             let (right_start, right_end) = (right.iter().position(|&i| i == left[x]), right.iter().position(|&i| i == left[y]));
             let (left_walk_cost, right_walk_cost) = (subwalk_cost(Some(x), Some(y), left, map), subwalk_cost(right_start, right_end, right, map));
             if left_walk_cost != None && right_walk_cost != None {
