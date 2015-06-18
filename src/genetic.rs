@@ -39,7 +39,7 @@ fn longest_reduction(left : &Vec<i32>, right : &Vec<i32>, map : &HashMap<i32, Ve
 	        };
 	        
 	        if reduction > currentReduction {
-	            let leftPositions = (x,y);
+	            let leftPositions = (left.iter().position(|&i| i == left[x]).unwrap(), left.iter().position(|&i| i == left[y]).unwrap());
 	            let rightPositions = (right.iter().position(|&i| i == left[x]).unwrap(), right.iter().position(|&i| i == left[y]).unwrap());
 	            longestReduction = Some((reduction, leftPositions, rightPositions));
 	        }
