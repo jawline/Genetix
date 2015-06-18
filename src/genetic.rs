@@ -56,7 +56,7 @@ fn combine_walk(left : &Vec<i32>, right: &Vec<i32>, map : &HashMap<i32, Vec<Conn
     	Some((amountReduced, (leftStart, leftEnd), (rightStart, rightEnd))) => {
     		println!("Reduce {} Between {} {}", amountReduced, leftStart, leftEnd);
     		left.iter().cloned().take(leftStart).chain(
-    			right.iter().cloned().skip(rightStart).take(rightEnd)
+    			right.iter().cloned().skip(rightStart).take(rightEnd - rightStart)
     		).chain(
     			left.iter().cloned().skip(leftEnd)
     		).collect()
