@@ -54,6 +54,7 @@ fn combine_walk(left : &Vec<i32>, right: &Vec<i32>, map : &HashMap<i32, Vec<Conn
     return match longest_reduction(left, right, map) {
     	None => left.iter().cloned().collect(),
     	Some((_, (leftStart, leftEnd), (rightStart, rightEnd))) => {
+    		println!("Reduce Between {} {}", leftStart, leftEnd);
     		left.iter().cloned().take(leftStart).chain(
     			right.iter().cloned().skip(rightStart).take(rightEnd)
     		).chain(
