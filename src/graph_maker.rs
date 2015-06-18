@@ -12,9 +12,9 @@ pub fn make_graph() -> HashMap<i32, Vec<conn::Conn>> {
 	
 	const max_link_cost : i32 = 8000;
 
-	for x in 0..1000 {
+	for x in 0..1500 {
 		let mut links = Vec::new();
-		for y in 0..1000 {
+		for y in 0..1500 {
 			if y == x {
 				links.push(conn::Conn{dest: y, cost: 0});
 			} else {
