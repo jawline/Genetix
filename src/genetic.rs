@@ -39,7 +39,6 @@ fn longest_reduction(left : &Vec<i32>, right : &Vec<i32>, map : &HashMap<i32, Ve
 	        };
 	        
 	        if reduction > currentReduction {
-	            println!("Marked Reduction {} {} {}", leftCost.unwrap(), rightCost.unwrap(), reduction);
 	            let leftPositions = (left.iter().position(|&i| i == left[x]).unwrap(), left.iter().position(|&i| i == left[y]).unwrap());
 	            let rightPositions = (right.iter().position(|&i| i == left[x]).unwrap(), right.iter().position(|&i| i == left[y]).unwrap());
 	            longestReduction = Some((reduction, leftPositions, rightPositions));
@@ -55,9 +54,6 @@ fn combine_walk(left : &Vec<i32>, right: &Vec<i32>, map : &HashMap<i32, Vec<Conn
     return match longest_reduction(left, right, map) {
     	None => left.iter().cloned().collect(),
     	Some((reduced_by, (left_start, left_end), (right_start, right_end))) => {
-    		println!("Reduce {} Indices: ({},{}) ({},{})", reduced_by, left_start, left_end, right_start, right_end);
-    		println!("Left {}", walk_cost(left[left_start], left[left_end], left, map).unwrap());
-    		println!("Right {}", walk_cost(left[left_start], left[left_end], right, map).unwrap());
     		left.iter().cloned().take(left_start).chain(
     			right.iter().cloned().skip(right_start).take(right_end - right_start)
     		).chain(
@@ -79,7 +75,7 @@ pub fn genetic(start : i32, end : i32, map : &HashMap<i32, Vec<Conn>>) -> Vec<i3
     }
 
     const COMBINE_AMOUNT : usize = 10;
-    const GENERATIONS : usize = 20;
+    const GENERATIONS : usize = 40;
 
     //Discard the worst 50% from the population and remake them, then resort, for GENERATIONS
     for gen in 0..GENERATIONS {
